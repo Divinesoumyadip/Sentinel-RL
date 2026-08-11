@@ -102,20 +102,3 @@ g++ -std=c++17 -O2 -c *.cpp && g++ *.o -o sensor_loop -lpthread
 ./sensor_loop | python3 ../jetson_inference.py --stdin-loop
 ```
 
-## JD coverage map
-
-| Requirement | Where |
-|---|---|
-| Double DQN + PER, production-level | `train/train_dqn.py`, `train/replay_buffer.py` (sum-tree PER) |
-| Custom Gym/Gymnasium env, state/action/reward from scratch | `env/detector_env.py` |
-| LSTM / sequence modeling, supervised pretrain + encoder fine-tune | `models/lstm_encoder.py`, `train/pretrain_lstm.py` |
-| PyTorch, primary framework | throughout |
-| INT8 PTQ/QAT, ONNX/TorchScript export | `quantization/quantize_ptq.py`, `quantize_qat.py` |
-| Embedded deployment, Jetson-class, CUDA/driver matching | `deployment/jetson_inference.py` (version-matching notes in header) |
-| C/C++, I2C/UART/CAN sensor interfacing | `deployment/sensor_interface/*.cpp` |
-| Multi-sensor time-series fusion | `env/detector_env.py` observation vector, `data/generate_synthetic_data.py` |
-| Sensor interfacing: counters/detectors, power monitors, temp, motion | `i2c_reader.cpp`, `uart_reader.cpp`, `can_reader.cpp` |
-| Data engineering: cleaning, resampling, leakage-safe splits | `data/data_pipeline.py` |
-| Fault-tolerant/resilient systems | Bus-read fallback pattern in `i2c_reader.cpp`; reward design in `detector_env.py` |
-| HIL testing/validation | `deployment/hil_test_harness.py`, `main_inference_loop.cpp` |
-| On-device latency/power benchmarking | `benchmarks/latency_power_profile.py` |
