@@ -1,0 +1,12 @@
+numpy
+pandas
+torch>=2.0
+gymnasium
+onnx
+onnxruntime
+
+# --- Jetson / edge deployment ---
+# On-device, replace onnxruntime with the JetPack-matched GPU build, e.g.:
+#   onnxruntime-gpu==<version matching your JetPack CUDA/TensorRT>
+# Pin CUDA / cuDNN / TensorRT versions to your flashed JetPack release --
+# see deployment/jetson_inference.py header comment for why this matters.
